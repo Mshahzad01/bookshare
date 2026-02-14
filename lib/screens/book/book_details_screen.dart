@@ -33,7 +33,7 @@ class BookDetailsScreen extends StatelessWidget {
             flexibleSpace: FlexibleSpaceBar(
               background: Hero(
                 tag: 'book_${book.id}',
-                child: Image.network(
+                child: Image.asset(
                   book.imageUrl,
                   fit: BoxFit.cover,
                 ),
@@ -213,7 +213,7 @@ class BookDetailsScreen extends StatelessWidget {
                           children: [
                             CircleAvatar(
                               radius: 30,
-                              backgroundImage: NetworkImage(seller.avatarUrl ?? ''),
+                              backgroundImage: AssetImage(seller.avatarUrl ?? ''),
                             ),
                             const SizedBox(width: 16),
                             Expanded(

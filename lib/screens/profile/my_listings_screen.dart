@@ -70,39 +70,12 @@ class MyListingsScreen extends StatelessWidget {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(12),
-                          child: Image.network(
+                          child: Image.asset(
                             book.imageUrl,
                             width: 80,
                             height: 120,
                             fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Container(
-                                width: 80,
-                                height: 120,
-                                color: Colors.grey[300],
-                                child: Icon(
-                                  Icons.book,
-                                  color: Colors.grey[600],
-                                  size: 40,
-                                ),
-                              );
-                            },
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) return child;
-                              return Container(
-                                width: 80,
-                                height: 120,
-                                color: Colors.grey[200],
-                                child: Center(
-                                  child: CircularProgressIndicator(
-                                    value: loadingProgress.expectedTotalBytes != null
-                                        ? loadingProgress.cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!
-                                        : null,
-                                  ),
-                                ),
-                              );
-                            },
+                           
                           ),
                         ),
                         const SizedBox(width: 16),

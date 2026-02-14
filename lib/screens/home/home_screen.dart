@@ -266,7 +266,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   image: DecorationImage(
-                    image: NetworkImage(banner.imageUrl),
+                    image: AssetImage(banner.imageUrl),
                     fit: BoxFit.cover,
                     colorFilter: ColorFilter.mode(
                       Colors.black.withValues(alpha: 0.3),
@@ -441,7 +441,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
                   image: DecorationImage(
-                    image: NetworkImage(book.imageUrl),
+                    image: AssetImage(book.imageUrl),
                     fit: BoxFit.cover,
                   ),
                 ),

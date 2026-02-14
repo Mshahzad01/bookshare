@@ -214,7 +214,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
                   image: DecorationImage(
-                    image: NetworkImage(book.imageUrl),
+                    image: AssetImage(book.imageUrl),
                     fit: BoxFit.cover,
                   ),
                 ),

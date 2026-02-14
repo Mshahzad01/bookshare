@@ -116,7 +116,7 @@ class _ChatScreenState extends State<ChatScreen> {
               children: [
                 CircleAvatar(
                   radius: 30,
-                  backgroundImage: NetworkImage(conversation.otherUserAvatar),
+                  backgroundImage: AssetImage(conversation.otherUserAvatar),
                 ),
                 if (conversation.unreadCount > 0)
                   Positioned(
