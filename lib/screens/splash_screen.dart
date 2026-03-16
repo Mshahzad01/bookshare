@@ -1,9 +1,14 @@
 import 'package:bookshare/constant/asset_string.dart';
+import 'package:bookshare/screens/home/home_screen.dart';
+import 'package:bookshare/screens/main_navigation_screen.dart';
+import 'package:bookshare/src/auth/login_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
+  static const route = '/';
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -35,7 +40,12 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
     Future.delayed(const Duration(seconds: 3), () {
       if (mounted) {
-        Navigator.pushReplacementNamed(context, '/login');
+        final user = FirebaseAuth.instance.currentUser;
+        if (user != null) {
+          Navigator.pushReplacementNamed(context, MainNavigationScreen.routeName);
+        } else {
+          Navigator.pushReplacementNamed(context, LoginScreen.route);
+        }
       }
     });
   }

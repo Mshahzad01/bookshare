@@ -19,56 +19,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     context.read<ProfileCubit>().loadProfile();
   }
 
-  Widget _buildStatCard(String title, String value, IconData icon, Color color) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              color,
-              color.withValues(alpha: 0.7),
-            ],
-          ),
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: color.withValues(alpha: 0.3),
-              blurRadius: 8,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Column(
-          children: [
-            FaIcon(
-              icon,
-              color: Colors.white,
-              size: 28,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              value,
-              style: GoogleFonts.poppins(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            Text(
-              title,
-              style: GoogleFonts.poppins(
-                fontSize: 12,
-                color: Colors.white.withValues(alpha: 0.9),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  
 
   Widget _buildMenuTile(BuildContext context, String title, IconData icon, VoidCallback onTap) {
     return Card(
@@ -203,60 +154,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
 
-              // Stats Dashboard
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Dashboard',
-                        style: GoogleFonts.poppins(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Row(
-                        children: [
-                          _buildStatCard(
-                            'Trust Score',
-                            '${state.user.trustScore}',
-                            FontAwesomeIcons.star,
-                            Colors.amber[600]!,
-                          ),
-                          const SizedBox(width: 12),
-                          _buildStatCard(
-                            'Listings',
-                            '${state.user.totalListings}',
-                            FontAwesomeIcons.book,
-                            Colors.blue[600]!,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        children: [
-                          _buildStatCard(
-                            'Completed',
-                            '${state.user.completedTransactions}',
-                            FontAwesomeIcons.checkCircle,
-                            Colors.green[600]!,
-                          ),
-                          const SizedBox(width: 12),
-                          _buildStatCard(
-                            'Donated',
-                            '${state.user.totalListings - 1}',
-                            FontAwesomeIcons.gift,
-                            Colors.purple[600]!,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+           
 
               // Menu Options
               SliverToBoxAdapter(

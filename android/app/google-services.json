@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "914128286438",
+    "project_id": "book-share-fc3ba",
+    "storage_bucket": "book-share-fc3ba.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:914128286438:android:9ff5cc3ab4641912e04127",
+        "android_client_info": {
+          "package_name": "com.example.bookshare"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyW-0zEyRCN-FbjySUw0I0Z4DKjGWLk7w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

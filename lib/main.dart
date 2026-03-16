@@ -1,3 +1,6 @@
+import 'package:bookshare/firebase_options.dart';
+import 'package:bookshare/src/constant/router.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,16 +14,22 @@ import 'cubits/profile/profile_cubit.dart';
 
 // Screens
 import 'screens/splash_screen.dart';
-import 'screens/auth/login_screen.dart';
-import 'screens/auth/signup_screen.dart';
+import 'src/auth/login_screen.dart';
+import 'src/auth/signup_screen.dart';
 import 'screens/main_navigation_screen.dart';
-import 'screens/profile/my_listings_screen.dart';
+import 'src/profile/my_listings_screen.dart';
 import 'screens/add_book/add_book_screen.dart';
 import 'screens/book/book_details_screen.dart';
 import 'models/book.dart';
 
-void main() {
-  runApp(const BookShareApp());
+void main() async{
+
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    runApp(const BookShareApp());
+  
 }
 
 class BookShareApp extends StatelessWidget {
@@ -65,24 +74,9 @@ class BookShareApp extends StatelessWidget {
           ),
           textTheme: GoogleFonts.poppinsTextTheme(ThemeData.dark().textTheme),
         ),
-        initialRoute: '/',
-        onGenerateRoute: (settings) {
-          if (settings.name == '/book-details') {
-            final book = settings.arguments as Book;
-            return MaterialPageRoute(
-              builder: (context) => BookDetailsScreen(book: book),
-            );
-          }
-          return null;
-        },
-        routes: {
-          '/': (context) => const SplashScreen(),
-          '/login': (context) => const LoginScreen(),
-          '/signup': (context) => const SignupScreen(),
-          '/main': (context) => const MainNavigationScreen(),
-          '/my-listings': (context) => const MyListingsScreen(),
-          '/add-book': (context) => const AddBookScreen(),
-        },
+          onGenerateRoute: MyRouter.generateRoute,
+          initialRoute: SplashScreen.route,
+     
       ),
     );
   }

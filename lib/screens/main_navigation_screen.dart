@@ -4,11 +4,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'home/home_screen.dart';
 import 'categories/categories_screen.dart';
 import 'chat/chat_screen.dart';
-import 'profile/profile_screen.dart';
-import 'add_book/add_book_screen.dart';
+import '../src/profile/profile_screen.dart';
+
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
+  static const routeName = '/navigation';
 
   @override
   State<MainNavigationScreen> createState() => _MainNavigationScreenState();
@@ -20,7 +21,6 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   final List<Widget> _screens = const [
     HomeScreen(),
     CategoriesScreen(),
-    SizedBox(), // Placeholder for center button
     ChatScreen(),
     ProfileScreen(),
   ];
@@ -32,19 +32,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         index: _currentIndex,
         children: _screens,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const AddBookScreen(),
-            ),
-          );
-        },
-        elevation: 4,
-        backgroundColor: Theme.of(context).colorScheme.primary.withAlpha(200),
-        child: const Icon(Icons.add, size: 32, color: Colors.white,),
-      ),
+   
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
@@ -66,18 +54,19 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               label: 'Categories',
               index: 1,
             ),
-            const SizedBox(width: 48), // Space for FAB
+            // Space for FAB
             _buildNavItem(
               icon: FontAwesomeIcons.message,
               activeIcon: FontAwesomeIcons.solidMessage,
               label: 'Chat',
-              index: 3,
+              index: 2,
             ),
             _buildNavItem(
               icon: FontAwesomeIcons.user,
               activeIcon: FontAwesomeIcons.solidUser,
               label: 'Profile',
-              index: 4,
+              index: 3,
+
             ),
           ],
         ),

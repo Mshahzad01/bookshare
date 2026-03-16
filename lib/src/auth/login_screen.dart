@@ -1,4 +1,6 @@
 import 'package:bookshare/constant/asset_string.dart';
+import 'package:bookshare/screens/home/home_screen.dart';
+import 'package:bookshare/src/auth/network/auth_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,6 +11,7 @@ import '../../cubits/auth/auth_state.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+  static const route = '/login';
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -26,6 +29,11 @@ class _LoginScreenState extends State<LoginScreen> {
     _passwordController.dispose();
     super.dispose();
   }
+
+  
+   bool _isSignInLoading = false;
+   bool  _isGoogleLoading = false;
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                // Header with Logo
+                 
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 40),
                   child: Column(
@@ -156,16 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           BlocBuilder<AuthCubit, AuthState>(
                             builder: (context, state) {
                               return FilledButton(
-                                onPressed: state is AuthLoading
-                                    ? null
-                                    : () {
-                                        if (_formKey.currentState!.validate()) {
-                                          context.read<AuthCubit>().login(
-                                                _emailController.text,
-                                                _passwordController.text,
-                                              );
-                                        }
-                                      },
+                                onPressed: _isSignInLoading ? null : _login,
                                 style: FilledButton.styleFrom(
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 16),
@@ -173,16 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                 ),
-                                child: state is AuthLoading
-                                    ? const SizedBox(
-                                        height: 20,
-                                        width: 20,
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2,
-                                          color: Colors.white,
-                                        ),
-                                      )
-                                    : Text(
+                                child:_isSignInLoading ? CircularProgressIndicator():  Text(
                                         'Login',
                                         style: GoogleFonts.poppins(
                                           fontSize: 16,
@@ -195,10 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           const SizedBox(height: 16),
                           // Google Login
                           OutlinedButton.icon(
-                            onPressed: () {
-                              context.read<AuthCubit>().login(
-                                  'demo@example.com', 'password');
-                            },
+                            onPressed: _isGoogleLoading ? null : _signUpWithGoogle,
                             icon: const FaIcon(FontAwesomeIcons.google,color: Colors.redAccent,
                                 size: 18),
                             label: Text(
@@ -257,5 +244,69 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
     );
   
+  }
+
+
+  Future _login()async{
+
+     if(_formKey.currentState!.validate()){
+      try {
+           setState(() {
+         _isSignInLoading = true;
+       });
+       
+       final email = _emailController.text.trim();
+       final password = _passwordController.text.trim();
+       final repo = AuthRepo();
+       await repo.signIn(email, password);
+       if(mounted){
+ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('You Login Successfully')));
+       }
+      } catch (e) {
+        if(mounted){
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+
+        }
+      } finally{
+        setState(() {
+          _isSignInLoading = false;
+        });
+      }
+    
+        
+   
+     }
+  }
+
+   Future _signUpWithGoogle() async {
+    setState(() {
+      _isGoogleLoading = true;
+    });
+
+    try {
+         final repo = AuthRepo();
+      await repo.signInWithGoogle();
+      if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Signed in with Google successfully')),
+      );
+      Navigator.of(context).pushNamed(HomeScreen.routeName);
+      }
+    } catch (e) {
+      if (mounted) {
+        final error = e.toString();
+        if (error.contains('SIGN_IN_CANCELED')) {
+          return;
+        }
+        debugPrint('Google Sign-In Error: $e');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e')),
+        );
+      }
+    } finally {
+      setState(() {
+        _isGoogleLoading = false;
+      });
+    }
   }
 }
