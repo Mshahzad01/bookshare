@@ -6,6 +6,8 @@ class User extends Equatable {
   final String email;
   final String? avatarUrl;
   final String location;
+  final String? phoneNumber;
+  final String? accountType; // Student or Shopkeeper
   final double trustScore;
   final int totalListings;
   final int completedTransactions;
@@ -16,6 +18,8 @@ class User extends Equatable {
     required this.email,
     this.avatarUrl,
     required this.location,
+    this.phoneNumber,
+    this.accountType,
     this.trustScore = 0.0,
     this.totalListings = 0,
     this.completedTransactions = 0,
@@ -27,6 +31,8 @@ class User extends Equatable {
     String? email,
     String? avatarUrl,
     String? location,
+    String? phoneNumber,
+    String? accountType,
     double? trustScore,
     int? totalListings,
     int? completedTransactions,
@@ -37,9 +43,26 @@ class User extends Equatable {
       email: email ?? this.email,
       avatarUrl: avatarUrl ?? this.avatarUrl,
       location: location ?? this.location,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      accountType: accountType ?? this.accountType,
       trustScore: trustScore ?? this.trustScore,
       totalListings: totalListings ?? this.totalListings,
       completedTransactions: completedTransactions ?? this.completedTransactions,
+    );
+  }
+
+  factory User.fromMap(Map<String, dynamic> map, String id) {
+    return User(
+      id: id,
+      name: map['name'] ?? '',
+      email: map['email'] ?? '',
+      avatarUrl: map['avatarUrl'],
+      location: map['location'] ?? '',
+      phoneNumber: map['phoneNumber'],
+      accountType: map['accountType'],
+      trustScore: (map['trustScore'] ?? 0.0).toDouble(),
+      totalListings: map['totalListings'] ?? 0,
+      completedTransactions: map['completedTransactions'] ?? 0,
     );
   }
 
@@ -50,6 +73,8 @@ class User extends Equatable {
         email,
         avatarUrl,
         location,
+        phoneNumber,
+        accountType,
         trustScore,
         totalListings,
         completedTransactions,

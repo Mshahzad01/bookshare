@@ -6,6 +6,7 @@ class Book extends Equatable {
   final String author;
   final String description;
   final String imageUrl;
+  final List<String> imageUrls;
   final double? price;
   final bool isDonation;
   final String condition;
@@ -23,6 +24,7 @@ class Book extends Equatable {
     required this.author,
     required this.description,
     required this.imageUrl,
+    this.imageUrls = const [],
     this.price,
     required this.isDonation,
     required this.condition,
@@ -41,6 +43,7 @@ class Book extends Equatable {
     String? author,
     String? description,
     String? imageUrl,
+    List<String>? imageUrls,
     double? price,
     bool? isDonation,
     String? condition,
@@ -58,6 +61,7 @@ class Book extends Equatable {
       author: author ?? this.author,
       description: description ?? this.description,
       imageUrl: imageUrl ?? this.imageUrl,
+      imageUrls: imageUrls ?? this.imageUrls,
       price: price ?? this.price,
       isDonation: isDonation ?? this.isDonation,
       condition: condition ?? this.condition,
@@ -71,6 +75,51 @@ class Book extends Equatable {
     );
   }
 
+  factory Book.fromMap(Map<String, dynamic> map, String id) {
+    return Book(
+      id: id,
+      title: map['title'] ?? '',
+      author: map['author'] ?? '',
+      description: map['description'] ?? '',
+      imageUrl: map['imageUrl'] ?? '',
+      imageUrls: map['imageUrls'] != null 
+          ? List<String>.from(map['imageUrls']) 
+          : (map['imageUrl'] != null && map['imageUrl'].toString().isNotEmpty ? [map['imageUrl']] : []),
+      price: map['price']?.toDouble(),
+      isDonation: map['isDonation'] ?? false,
+      condition: map['condition'] ?? '',
+      category: map['category'] ?? '',
+      sellerId: map['sellerId'] ?? '',
+      sellerName: map['sellerName'] ?? '',
+      location: map['location'] ?? '',
+      distance: (map['distance'] ?? 0.0).toDouble(),
+      isSold: map['isSold'] ?? false,
+      postedDate: map['postedDate'] != null 
+          ? DateTime.fromMillisecondsSinceEpoch(map['postedDate']) 
+          : DateTime.now(),
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'title': title,
+      'author': author,
+      'description': description,
+      'imageUrl': imageUrl,
+      'imageUrls': imageUrls,
+      'price': price,
+      'isDonation': isDonation,
+      'condition': condition,
+      'category': category,
+      'sellerId': sellerId,
+      'sellerName': sellerName,
+      'location': location,
+      'distance': distance,
+      'isSold': isSold,
+      'postedDate': postedDate.millisecondsSinceEpoch,
+    };
+  }
+
   @override
   List<Object?> get props => [
         id,
@@ -78,6 +127,7 @@ class Book extends Equatable {
         author,
         description,
         imageUrl,
+        imageUrls,
         price,
         isDonation,
         condition,

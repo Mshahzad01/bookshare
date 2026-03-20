@@ -1,6 +1,5 @@
-
+import 'dart:io';
 import 'package:cloudinary_public/cloudinary_public.dart';
-import 'package:image_picker/image_picker.dart';
 
 class CloudinaryService {
   // Apne Cloudinary dashboard se "Cloud Name" yahan likhein
@@ -8,27 +7,22 @@ class CloudinaryService {
   // Jo preset hum ne step 1 mein banaya tha
   final String uploadPreset = "BookShare"; 
 
-  Future<void> uploadImage() async {
-    final ImagePicker picker = ImagePicker();
-    
-    // 1. Gallery se image pick karein
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+  Future<String?> uploadImage(File imageFile) async {
+    try {
+      final cloudinary = CloudinaryPublic(cloudName, uploadPreset, cache: false);
 
-    if (image != null) {
-      try {
-        final cloudinary = CloudinaryPublic(cloudName, uploadPreset, cache: false);
+      // 2. Image upload karein
+      CloudinaryResponse response = await cloudinary.uploadFile(
+        CloudinaryFile.fromFile(imageFile.path, resourceType: CloudinaryResourceType.Image),
+      );
 
-        // 2. Image upload karein
-        CloudinaryResponse response = await cloudinary.uploadFile(
-          CloudinaryFile.fromFile(image.path, resourceType: CloudinaryResourceType.Image),
-        );
-
-        // 3. Upload ke baad URL mil jayega
-        print("Image URL: ${response.secureUrl}");
-        
-      } on CloudinaryException catch (e) {
-        print("Error: ${e.message}");
-      }
+      // 3. Upload ke baad URL mil jayega
+      print("Image URL: ${response.secureUrl}");
+      return response.secureUrl;
+      
+    } on CloudinaryException catch (e) {
+      print("Error: ${e.message}");
+      return null;
     }
   }
 }

@@ -1,5 +1,5 @@
 import 'package:bookshare/constant/asset_string.dart';
-import 'package:bookshare/screens/home/home_screen.dart';
+import 'package:bookshare/src/buyer/home/screen/home_screen.dart';
 import 'package:bookshare/screens/main_navigation_screen.dart';
 import 'package:bookshare/src/auth/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,7 +14,8 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
   late Animation<double> _scaleAnimation;
@@ -22,19 +23,21 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   @override
   void initState() {
     super.initState();
-    
+
     _controller = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
     );
 
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeIn),
-    );
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
 
-    _scaleAnimation = Tween<double>(begin: 0.5, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutBack),
-    );
+    _scaleAnimation = Tween<double>(
+      begin: 0.5,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutBack));
 
     _controller.forward();
 
@@ -42,7 +45,10 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       if (mounted) {
         final user = FirebaseAuth.instance.currentUser;
         if (user != null) {
-          Navigator.pushReplacementNamed(context, MainNavigationScreen.routeName);
+          Navigator.pushReplacementNamed(
+            context,
+            MainNavigationScreen.routeName,
+          );
         } else {
           Navigator.pushReplacementNamed(context, LoginScreen.route);
         }
@@ -82,8 +88,11 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                       ),
                     ],
                   ),
-                  child:                          Image.asset(AssetString.logoPath, height: 100,width: 300,),
-
+                  child: Image.asset(
+                    AssetString.logoPath,
+                    height: 100,
+                    width: 300,
+                  ),
                 ),
                 const SizedBox(height: 30),
                 Text(
